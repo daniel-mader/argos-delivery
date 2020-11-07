@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: backend
+    build:
+      context: argos-backend
+    ports:
+      - "8082:8082"
+      - "3001:3001"
+  frontend:
+    container_name: frontend
+    build:
+      context: argos-frontend
+    ports:
+      - "3000:3000"
