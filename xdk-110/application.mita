@@ -1,0 +1,63 @@
+package main;
+
+import platforms.xdk110;
+
+let DEVICE_NAME = "XDK_HTTP_1";
+
+/* ------------------- SETUP ------------------ */
+setup network : WLAN {
+    authentication = Personal(psk='');
+    ssid = '';
+}
+
+setup localDebugServer : HttpRestClient {
+    transport = network;
+    endpointBase = "http://192.168.178.86:3001";
+    
+    var post = resource('/sensor_data');
+}
+
+setup streamsGateway : HttpRestClient {
+    transport = network;
+    endpointBase = "http://192.168.178.28:8080";
+    
+    var post = resource('/sensor_data');
+}
+
+setup led : LED {
+    var red = light_up(Red);
+    var yellow = light_up(Yellow);
+    var orange = light_up(Orange);
+}
+
+/* --------------- FUNCTIONALITY --------------- */
+
+/* Toggle red LED */
+every button_one.pressed {
+	let statusRed = led.red.read();
+	led.red.write(!statusRed);
+	println(`Red LED: ${!statusRed}`);
+}
+
+/* Detects light shocks, but does not send them to the Tangle. */
+every accelerometer.any_motion {
+	let value = accelerometer.magnitude.read();
+    if(value > 5000) {
+        println(`Shock detected! [${value}]`);
+    }
+}
+
+/* On high impact, send a message to the Tangle and the argos backend for debugging. */
+every accelerometer.high_g {
+	println(`Shock detected by high_g!`);
+	let message = `{"iot2tangle": [ { "sensor": "Accelerometer", "data": [ { "message": "shock detected" } ] } ], "device": "XDK_HTTP_1", "timestamp": 1558511111}`;
+	led.red.write(true);
+	localDebugServer.post().write(message);
+	streamsGateway.post().write(message);
+}
+
+// blinking light (indicates that device is on)
+every 1 second {
+	let yellowStatus = led.yellow.read();
+	led.yellow.write(!yellowStatus);
+}

@@ -1,0 +1,34 @@
+[
+    {
+        "id": "24c6a88f-4368-4f8c-ad73-f38944e54890",
+        "timestamp": "",
+        "type": "SCAN",
+        "state": "STARTED",
+        "value": "Test1234"
+    },
+    {
+        "id": "d5a6faa8-2067-45a4-a535-a8fefa073a14",
+        "timestamp": "",
+        "type": "DROP",
+        "location": {
+            "latitude": "51.50978",
+            "longitude": "-0.13454"
+        }
+    },
+    {
+        "id": "d98b76a6-fe2e-4b65-92b4-12d0440e1c00",
+        "timestamp": "",
+        "type": "DROP",
+        "location": {
+            "latitude": "52.51628",
+            "longitude": "13.3777"
+        }
+    },
+    {
+        "id": "3d660721-8c14-438a-8897-680c7395f044",
+        "timestamp": "",
+        "type": "SCAN",
+        "state": "COMPLETED",
+        "value": "Test1234"
+    }
+]

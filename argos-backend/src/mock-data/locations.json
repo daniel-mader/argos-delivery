@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Berlin",
+        "latitude": "52.51628",
+        "longitude": "13.3777"
+    },
+    {
+        "name": "Sydney",
+        "latitude": "-33.85712",
+        "longitude": "151.21516"
+    },
+    {
+        "name": "London",
+        "latitude": "51.50978",
+        "longitude": "-0.13454"
+    },
+    {
+        "name": "Paris",
+        "latitude": "48.85797",
+        "longitude": "2.29450"
+    },
+    {
+        "name": "New York City",
+        "latitude": "40.68924",
+        "longitude": "-74.04454"
+    }
+]

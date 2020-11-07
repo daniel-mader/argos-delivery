@@ -1,0 +1,52 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  /* min-height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Background {
+  /*background-image: linear-gradient(#42275a, #734b6d); !* Mauve *!*/
+  /*background-image: linear-gradient(#348F50, #56B4D3); !* Emerald Water *!*/
+  /*background-image: linear-gradient(#8A2387, #E94057, #F27121); !* Wiretap *!*/
+  /*background-image: linear-gradient(#134E5E, #71B280); !* Moss *!*/
+  /*background-image: linear-gradient(#F37335, #FDC830); !* Citrus Peel *!*/
+  /*background-image: linear-gradient(#3a6186, #2c3e50); !* Amin *!*/
+  /*background-image: linear-gradient(#1A2980, #26D0CE); !* Aqua Marine *!*/
+  background-image: linear-gradient(#F6F8FC, #EEF2FA); /* IOTA official */
+  min-height: 100vh;
+  color: #282c34; /* dark gray */
+  /*color: #FFF;*/
+}
