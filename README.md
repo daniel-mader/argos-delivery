@@ -2,7 +2,7 @@
 
 ![argos_logo](assets/repo_banner.png)
 
-**Argos Delivery** is a project created in the scope of the [IOT2TANGLE Hackathon](https://hackathon.iot2tangle.io/) that took place from 26 Oct - 26 Nov 2020.
+**Argos Delivery** is a project created during the [IOT2TANGLE Hackathon](https://hackathon.iot2tangle.io/) that took place from 26 Oct - 26 Nov 2020.
 
 > The idea behind Argos Delivery is to make use of _IOTA Streams_ to track a delivery throughout the entire delivery process by creating a so-called _"digital twin"_ -- an image of the real-world object on the IOTA ledger. The immutability of the data on the Tangle helps to ensure trust.
 
