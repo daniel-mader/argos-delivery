@@ -58,11 +58,10 @@ function App() {
   );
   const [frame, setFrame] = useState<string>("");
 
-  // const ws = new WebSocket("ws://localhost:8082");
   const ws = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    ws.current = new WebSocket("ws://0.0.0.0:8082");
+    ws.current = new WebSocket("ws://0.0.0.0:3001");
 
     ws.current.onerror = (message: any) => {
       setError(true);

@@ -8,8 +8,8 @@ import { mapContext } from "xstate/lib/utils";
 const fetch = require("node-fetch");
 const fs = require("fs");
 
-const http_port = 3001;
-const websocket_port = 8082;
+const http_port = 8082;
+const websocket_port = 3001;
 
 export const app = express();
 app.use(cors());

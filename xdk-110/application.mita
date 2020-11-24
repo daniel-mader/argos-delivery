@@ -10,7 +10,7 @@ setup network : WLAN {
     ssid = '';
 }
 
-setup localDebugServer : HttpRestClient {
+setup argosBackend : HttpRestClient {
     transport = network;
     endpointBase = "http://192.168.178.86:3001";
     
@@ -35,15 +35,22 @@ setup led : LED {
 /* Toggle red LED */
 every button_one.pressed {
 	let statusRed = led.red.read();
-	led.red.write(!statusRed);
+	led.red.write(false);
 	println(`Red LED: ${!statusRed}`);
+	let statusOrange = led.orange.read();
+	led.orange.write(false);
+	println(`Orange LED: ${!statusOrange}`);
 }
 
 /* Detects light shocks, but does not send them to the Tangle. */
 every accelerometer.any_motion {
 	let value = accelerometer.magnitude.read();
-    if(value > 5000) {
+    if(value > 8000) {
         println(`Shock detected! [${value}]`);
+        let message = `{"iot2tangle": [ { "sensor": "Accelerometer", "data": [ { "message": "shock detected" } ] } ], "device": "XDK_HTTP_1", "timestamp": 1558511111}`;
+		led.orange.write(true);
+		argosBackend.post().write(message);
+		streamsGateway.post().write(message);
     }
 }
 
@@ -52,7 +59,7 @@ every accelerometer.high_g {
 	println(`Shock detected by high_g!`);
 	let message = `{"iot2tangle": [ { "sensor": "Accelerometer", "data": [ { "message": "shock detected" } ] } ], "device": "XDK_HTTP_1", "timestamp": 1558511111}`;
 	led.red.write(true);
-	localDebugServer.post().write(message);
+	argosBackend.post().write(message);
 	streamsGateway.post().write(message);
 }
 

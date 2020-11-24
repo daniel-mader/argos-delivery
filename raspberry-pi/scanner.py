@@ -17,8 +17,8 @@ print('Waiting for the camera ...')
 vs = VideoStream(usePiCamera = False).start()
 time.sleep(2.0)
 
-async def hello():
-    uri = "ws://" + sys.argv[1] + ":8082"
+async def scan():
+    uri = "ws://" + sys.argv[1] + ":3001"
     print(uri)
     async with websockets.connect(uri) as websocket:
 
@@ -29,7 +29,7 @@ async def hello():
         detector = cv2.QRCodeDetector()
 
         while True:
-            #time.sleep(0.2)
+            time.sleep(0.2)
             
             frame = vs.read()
 
@@ -41,7 +41,7 @@ async def hello():
             for barcode in barcodes:
                 codedata = barcode.data.decode("utf-8")
                 print(codedata)
-                requests.post('http://' + sys.argv[1] + ':3001/qr', json={'qr': codedata})
+                requests.post('http://' + sys.argv[1] + ':8082/qr', json={'qr': codedata})
                 time.sleep(2.0)
 
             _, im_buf_arr = cv2.imencode(".jpg", frame)
@@ -52,4 +52,4 @@ async def hello():
             print(str(datetime.now()) + ' > Sending video frame ...') #TODO: video frame [size: ${frame.length / 1024} kB] ...
             await websocket.send(frame)
 
-asyncio.get_event_loop().run_until_complete(hello())
+asyncio.get_event_loop().run_until_complete(scan())
