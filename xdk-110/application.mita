@@ -42,9 +42,10 @@ every button_one.pressed {
 	println(`Orange LED: ${!statusOrange}`);
 }
 
-/* Detects light shocks, but does not send them to the Tangle. */
+/* Detects lighter shocks and sends a message to the Tangle and the argos backend for debugging. */
 every accelerometer.any_motion {
 	let value = accelerometer.magnitude.read();
+	 // change the following value to adjust the sensitivity of the sensor
     if(value > 8000) {
         println(`Shock detected! [${value}]`);
         let message = `{"iot2tangle": [ { "sensor": "Accelerometer", "data": [ { "message": "shock detected" } ] } ], "device": "XDK_HTTP_1", "timestamp": 1558511111}`;
@@ -63,7 +64,7 @@ every accelerometer.high_g {
 	streamsGateway.post().write(message);
 }
 
-// blinking light (indicates that device is on)
+// blinking light (indicates that device is active)
 every 1 second {
 	let yellowStatus = led.yellow.read();
 	led.yellow.write(!yellowStatus);

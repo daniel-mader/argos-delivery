@@ -22,19 +22,14 @@ async def scan():
     print(uri)
     async with websockets.connect(uri) as websocket:
 
-        #await websocket.send('Warming up the camera ...')
-        #vs = VideoStream(usePiCamera = False).start()
-        #time.sleep(2.0)
-
         detector = cv2.QRCodeDetector()
 
         while True:
+            # comment the following line to go full-speed (caution! may send a lot of frames ...)
             time.sleep(0.2)
             
             frame = vs.read()
 
-            #await websocket.send('New random number: ' + str(random.randint(0, 100)))
-            
             frame = imutils.resize(frame, width=250)
 
             barcodes = pyzbar.decode(frame)
@@ -47,9 +42,8 @@ async def scan():
             _, im_buf_arr = cv2.imencode(".jpg", frame)
 
             frame = im_buf_arr.tobytes()
-            #frame = np.fromstring(im_buf_arr, np.uint8).tobytes()
             
-            print(str(datetime.now()) + ' > Sending video frame ...') #TODO: video frame [size: ${frame.length / 1024} kB] ...
+            print(str(datetime.now()) + ' > Sending video frame ...')
             await websocket.send(frame)
 
 asyncio.get_event_loop().run_until_complete(scan())

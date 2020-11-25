@@ -4,7 +4,6 @@ import { argosStateService } from "./state";
 import { ArgosEvent, StreamsMessage } from "./model";
 import { sha3_256 } from "js-sha3";
 import { v4 as uuidv4 } from "uuid";
-import { mapContext } from "xstate/lib/utils";
 const fetch = require("node-fetch");
 const fs = require("fs");
 
@@ -92,8 +91,6 @@ async function switch_channel() {
  */
 app.post("/qr", (req, res) => {
   console.log(`>> RECEIVED (QR Code message): ${JSON.stringify(req.body)}`);
-  // TODO: transform to ArgosEvent and send to Streams-http-gateway / Keepy
-
   console.log(JSON.stringify(req.body));
 
   const message: StreamsMessage = {
@@ -118,7 +115,6 @@ app.post("/qr", (req, res) => {
     body: JSON.stringify(message),
     timeout: 10_000,
   })
-    // .then((response) => response.json())
     .then((data) => {
       console.log({ data });
     })
@@ -156,7 +152,6 @@ app.post("/decode", (req, res) => {
     .then((data) => {
       argosStateService.send("RESET"); // reset state machine before validating all events on channel
       const argosEvents = data.messages.map((message: string) => {
-        // TODO: map the response from the streams decoder to ArgosEvents (apply xstate)
         console.log(`Raw message from Tangle: ${message}`);
 
         const m = JSON.parse(message) as StreamsMessage;
@@ -191,14 +186,11 @@ app.post("/decode", (req, res) => {
               longitude: randomLocation.longitude,
             },
           } as ArgosEvent;
-          // console.log(argosEvent);
           return argosEvent;
         } else {
           console.warn(`Device [${device}] is not a known device.`);
         }
       });
-
-      // TODO: remove all DROPs before first SCAN and after last SCAN
 
       const response = { argosEvents };
       console.log({ response });
@@ -228,34 +220,8 @@ const http = require("http");
 
 const websocket_server = http.createServer(app);
 
-/*
-const server = https.createServer({
-  cert: fs.readFileSync('/path/to/cert.pem'),
-  key: fs.readFileSync('/path/to/key.pem')
-});
-*/
 const wss = new WebSocket.Server({
   server: websocket_server,
-  /*
-  port: 8088,
-  perMessageDeflate: {
-    zlibDeflateOptions: {
-      // See zlib defaults.
-      chunkSize: 1024,
-      memLevel: 7,
-      level: 3
-    },
-    zlibInflateOptions: {
-      chunkSize: 10 * 1024
-    },
-    // Other options settable:
-    clientNoContextTakeover: true, // Defaults to negotiated value.
-    serverNoContextTakeover: true, // Defaults to negotiated value.
-    serverMaxWindowBits: 10, // Defaults to negotiated value.
-    // Below options specified as default values.
-    concurrencyLimit: 10, // Limits zlib concurrency for perf.
-    threshold: 1024 // Size (in bytes) below which messages should not be compressed.
-  */
 });
 
 websocket_server.listen(websocket_port, "0.0.0.0", () => {
@@ -266,7 +232,7 @@ websocket_server.listen(websocket_port, "0.0.0.0", () => {
 
 var CLIENTS = []; // currently does nothing
 
-// "connection", "open", "message", "close"
+// websocket events: "connection", "open", "message", "close"
 wss.on("connection", (ws, req) => {
   CLIENTS.push[ws];
   const ip = req.connection.remoteAddress;
@@ -293,21 +259,3 @@ wss.on("connection", (ws, req) => {
     }
   });
 });
-
-// Client authentication
-/*
-server.on('upgrade', function upgrade(request, socket, head) {
-  // This function is not defined on purpose. Implement it with your own logic.
-  authenticate(request, (err, client) => {
-    if (err || !client) {
-      socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
-      socket.destroy();
-      return;
-    }
- 
-    wss.handleUpgrade(request, socket, head, function done(ws) {
-      wss.emit('connection', ws, request, client);
-    });
-  });
-});
-*/

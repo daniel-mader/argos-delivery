@@ -1,11 +1,11 @@
 export interface ArgosEvent {
-  id: string; // uuid
+  id: string;
   timestamp: string;
-  type: string; // SCAN, DROP
-  value: string | undefined; // scan value
-  state: string; // NOT STARTED, STARTED, COMPLETE
+  type: string;
+  value: string | undefined;
+  state: string;
   location: {
     latitude: string;
     longitude: string;
-  } //string | undefined; // drop location
+  };
 }

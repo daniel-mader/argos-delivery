@@ -12,15 +12,7 @@ import { ArgosEvent } from "./events/ArgosEvent";
 const useStyles = makeStyles({
   gridMain: {
     display: "grid",
-    // gridTemplate: `
-    //               "banner banner"
-    //               "scanner events"
-    //               "settings events"
-    //               "footer footer"
-    //               / 550px 1fr
-    //               `,
     padding: "50px",
-    // gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
     gridGap: "50px",
     gridTemplateAreas: `
                   "banner banner"
@@ -70,7 +62,6 @@ function App() {
     ws.current.onmessage = (message: any) => {
       if (typeof message.data === "string") {
         setArgosEvent(message.data);
-        // detect QR code message from pi and setOpenSnackbar(true)
       } else if (typeof message.data === "object") {
         setFrame(URL.createObjectURL(message.data));
       }
@@ -99,22 +90,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        {/*
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        */}
-      </header>
+      <header className="App-header"></header>
       <div className="Background">
         <div className={classes.gridMain}>
           <div style={{ gridColumn: "1 / -1" }} className={"banner"}>
