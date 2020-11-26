@@ -74,9 +74,7 @@ function ArgosEventList({ channelId, events }: EventListProps) {
             <CardContent className={classes.cardGrid}>
               {a.type === "SCAN" && a.state === "STARTED" && (
                 <div className={classes.cardGrid}>
-                  <Alert severity="info">
-                    Your package is on it's way now!
-                  </Alert>
+                  <Alert severity="info">Your package is on its way now!</Alert>
                   <div>
                     QR Code scanned:{" "}
                     <Chip label={a.value} variant={"outlined"} />
